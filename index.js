@@ -99,7 +99,7 @@ fastify.register(async (fastify) => {
             openAiWs.send(JSON.stringify(sessionUpdate));
 
             // Uncomment the following line to have AI speak first:
-            // sendInitialConversationItem();
+            sendInitialConversationItem();
         };
 
         // Send initial conversation item if AI talks first
@@ -197,7 +197,7 @@ fastify.register(async (fastify) => {
                     if (response.item_id) {
                         lastAssistantItem = response.item_id;
                     }
-                    
+
                     sendMark(connection, streamSid);
                 }
 
@@ -231,7 +231,7 @@ fastify.register(async (fastify) => {
                         console.log('Incoming stream has started', streamSid);
 
                         // Reset start and media timestamp on a new stream
-                        responseStartTimestampTwilio = null; 
+                        responseStartTimestampTwilio = null;
                         latestMediaTimestamp = 0;
                         break;
                     case 'mark':
@@ -265,7 +265,7 @@ fastify.register(async (fastify) => {
     });
 });
 
-fastify.listen({ port: PORT }, (err) => {
+fastify.listen({ port: PORT, host: '0.0.0.0' }, (err) => {
     if (err) {
         console.error(err);
         process.exit(1);

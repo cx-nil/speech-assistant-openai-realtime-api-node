@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    volumes:
+      - .:/usr/app
+      - speech_recognisation-node-modules:/usr/app/node_modules
+    env_file:
+      - .env
+
+  ngrok:
+    image: wernight/ngrok
+    container_name: ngrok
+    command: sh -c 'ngrok authtoken ${NGROK_AUTH_TOKEN} && ngrok http app:5000'
+    ports:
+      - '4040:4040'  # Ngrok web UI to monitor the tunnels
+    environment:
+      - NGROK_AUTH_TOKEN=${NGROK_AUTH_TOKEN}
+
+volumes:
+  speech_recognisation-node-modules:
+
